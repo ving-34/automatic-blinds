@@ -1,5 +1,5 @@
 from queue import Queue
-from mqtt.publish_thread import MQTTPublishThread
+from mqtt.subscribe_thread import MQTTSubscribeThread
 from mqtt.client import MQTTClient
 
 class MQTTService:
@@ -7,8 +7,8 @@ class MQTTService:
     
     def __init__(self):
         self.__queue = Queue()
-        # self.publish_thread = MQTTPublishThread(self.__queue)
         self.__is_started = False
+        self.subscribe_thread = MQTTSubscribeThread(self.__queue)
 
     @classmethod
     def get_instance(cls):
@@ -21,5 +21,5 @@ class MQTTService:
         if self.__is_started:
             return
         
-        # self.publish_thread.start()
+        self.subscribe_thread.start()
         self.__is_started = True

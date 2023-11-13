@@ -6,4 +6,6 @@ class MotorService:
         self.__motor = motor;
 
     def move_motor(self, n_steps: int):
-        MQTTClient.get_instance().publish('/motormove', n_steps)
+        client = MQTTClient.get_instance()
+        client.connect('127.0.0.1')
+        client.publish('/motormove', n_steps)
