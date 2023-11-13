@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    environment:
+      ENV_NAME: dev
+    ports:
+      - 3000:3000
+    networks:
+      - back-end
+    links:
+      - mqtt
+      - server
+
+  server:
+    build:
+      context: ./server
+      dockerfile: ./Dockerfile
+    networks:
+      - back-end
+    links:
+      - mqtt
+    volumes:
+      - ./server/src:/usr/src/server/src
+    restart: always
+
+  mqtt:
+    image: eclipse-mosquitto:2
+    ports:
+      - 1883:1883
+    expose:
+      - 1883
+    volumes:
+      - ./mqtt/config:/mosquitto/config
+      - ./mqtt/data:/mosquitto/data
+      - ./mqtt/log:/mosquitto/log
+    networks:
+      - back-end
+networks:
+  api_server_default:
+    external: true
+  back-end:
+    name: back-end
+    driver: bridge
