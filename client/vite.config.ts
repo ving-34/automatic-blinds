@@ -10,14 +10,6 @@ export default defineConfig({
         target: "http://192.168.2.12:5001",
         changeOrigin: true,
       },
-      "/mqtt": {
-        target: "mqtt://192.168.2.12",
-        changeOrigin: true,
-        rewrite: (path) => {
-          return path.replace(/^\/mqtt/, "");
-        },
-        ws: true,
-      },
     },
   },
   plugins: [react(), legacy()],
