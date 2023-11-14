@@ -1,4 +1,7 @@
 import {
+  IonAlert,
+  IonBackButton,
+  IonButtons,
   IonCard,
   IonCardContent,
   IonCardHeader,
@@ -7,6 +10,7 @@ import {
   IonContent,
   IonGrid,
   IonHeader,
+  IonInput,
   IonPage,
   IonRow,
   IonTitle,
@@ -15,8 +19,10 @@ import {
 import "./Home.css";
 import { AddDeviceModal, MotorControls } from "../components";
 import { addCircleOutline } from "ionicons/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router";
+import { Device } from "../types";
+import { DeviceService } from "../services";
 
 interface DevicePageProps
   extends RouteComponentProps<{
@@ -24,14 +30,31 @@ interface DevicePageProps
   }> {}
 
 const DevicePage: React.FC<DevicePageProps> = (props: DevicePageProps) => {
+  const [device, setDevice] = useState<Device | null>(null);
+  const [name, setName] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      const device = await new DeviceService().getDevice(
+        props.match.params.deviceId
+      );
+      setDevice(device);
+      setName(device?.name ?? "");
+    })();
+  }, [props.match.params.deviceId]);
+
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
+          <IonButtons slot="start">
+            <IonBackButton></IonBackButton>
+          </IonButtons>
           <IonTitle>Device</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
+        <IonAlert>{DeviceService.getURL()}</IonAlert>
         <IonGrid>
           <IonRow>
             <IonCol
@@ -42,14 +65,27 @@ const DevicePage: React.FC<DevicePageProps> = (props: DevicePageProps) => {
               offsetXl="4"
               sizeXl="4"
             >
-              <IonCard>
-                <IonCardHeader>
-                  <IonCardTitle>{props.match.params.deviceId}</IonCardTitle>
-                </IonCardHeader>
-                <IonCardContent>
-                  <MotorControls deviceId={props.match.params.deviceId} />
-                </IonCardContent>
-              </IonCard>
+              {device && (
+                <>
+                  <IonRow>
+                    <IonCol>
+                      <IonInput
+                        label="Name"
+                        placeholder="Device Name"
+                        value={name}
+                        onIonChange={(e) =>
+                          setName(e.target.value?.toString() ?? "")
+                        }
+                      />
+                    </IonCol>
+                  </IonRow>
+                  <IonRow>
+                    <IonCol>
+                      <MotorControls deviceId={device.id} />
+                    </IonCol>
+                  </IonRow>
+                </>
+              )}
             </IonCol>
           </IonRow>
         </IonGrid>

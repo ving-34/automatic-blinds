@@ -19,8 +19,8 @@ export const DeviceItem = (props: DeviceItemProps) => {
   const onConnect = () => {
     setIsConnecting(true);
 
-    const service = new DeviceService(props.id);
-    const subscription = service.connectToDevice().subscribe(() => {
+    const service = new DeviceService();
+    service.connectToDevice(props.id).subscribe(() => {
       onConnectionSuccess();
       setIsConnecting(false);
     });

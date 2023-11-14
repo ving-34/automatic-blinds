@@ -11,10 +11,11 @@ import {
   IonList,
   IonModal,
   IonSpinner,
+  IonText,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import { DevicesService } from "../../services/lib/devices-service";
+import { DiscoveryService } from "../../services/lib/discovery-service";
 import { useCallback, useEffect, useState } from "react";
 import { Subscription } from "rxjs";
 import { DeviceItem } from "./device-item";
@@ -55,7 +56,7 @@ export const AddDeviceModal = (props: AddDeviceModalProps) => {
   useEffect(() => {
     if (props.isOpen) {
       setDiscoverSubscription(
-        DevicesService.getInstance()
+        DiscoveryService.getInstance()
           .startDiscovery()
           ?.subscribe(({ topic }) => {
             addDevice(topic.split("/")[1]);
@@ -63,7 +64,7 @@ export const AddDeviceModal = (props: AddDeviceModalProps) => {
       );
 
       setStopSubscription(
-        DevicesService.getInstance()
+        DiscoveryService.getInstance()
           .onDiscoveryStopped()
           ?.subscribe(({ topic }) => {
             removeDevice(topic.split("/")[1]);
@@ -73,14 +74,14 @@ export const AddDeviceModal = (props: AddDeviceModalProps) => {
       setDeviceIds([]);
       discoverSubscription?.unsubscribe();
       stopSubscription?.unsubscribe();
-      DevicesService.getInstance().stopDiscovery();
+      DiscoveryService.getInstance().stopDiscovery();
     }
 
     return () => {
       setDeviceIds([]);
       discoverSubscription?.unsubscribe();
       stopSubscription?.unsubscribe();
-      DevicesService.getInstance().stopDiscovery();
+      DiscoveryService.getInstance().stopDiscovery();
     };
   }, [props.isOpen]);
 
@@ -89,7 +90,7 @@ export const AddDeviceModal = (props: AddDeviceModalProps) => {
       setDeviceIds([]);
       discoverSubscription?.unsubscribe();
       stopSubscription?.unsubscribe();
-      DevicesService.getInstance().stopDiscovery();
+      DiscoveryService.getInstance().stopDiscovery();
     };
   }, []);
 
@@ -100,17 +101,8 @@ export const AddDeviceModal = (props: AddDeviceModalProps) => {
           <IonTitle>Add Device</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
-        <IonCard>
-          <IonCardHeader>
-            <IonCardTitle>Searching for devices</IonCardTitle>
-            <IonCardSubtitle>
-              <IonSpinner name="circles" />
-            </IonCardSubtitle>
-          </IonCardHeader>
-        </IonCard>
-
-        {deviceIds.length > 0 && (
+      <IonContent className="ion-padding">
+        {deviceIds.length > 0 ? (
           <IonList inset={true}>
             {deviceIds.map((deviceId) => (
               <DeviceItem
@@ -120,6 +112,11 @@ export const AddDeviceModal = (props: AddDeviceModalProps) => {
               />
             ))}
           </IonList>
+        ) : (
+          <IonTitle>
+            <div className="ion-margin-bottom">Searching for devices</div>
+            <IonSpinner name="circles" />
+          </IonTitle>
         )}
       </IonContent>
     </IonModal>

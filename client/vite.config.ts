@@ -4,18 +4,18 @@ import { defineConfig } from "vite";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  server: {
-    proxy: {
-      "/api": {
-        target: "http://192.168.2.12:5001",
-        changeOrigin: true,
-      },
-    },
-  },
-  plugins: [react(), legacy()],
+  plugins: [react()],
   test: {
     globals: true,
     environment: "jsdom",
     setupFiles: "./src/setupTests.ts",
+  },
+  build: {
+    target: ["ES2020"],
+  },
+  optimizeDeps: {
+    esbuildOptions: {
+      target: ["ES2020"],
+    },
   },
 });

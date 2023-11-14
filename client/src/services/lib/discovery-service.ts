@@ -1,16 +1,16 @@
 import { MQTTClient } from "../../mqtt/lib/client";
 import { Observable } from "rxjs";
 
-export class DevicesService {
-  private static instance: DevicesService;
+export class DiscoveryService {
+  private static instance: DiscoveryService;
   private _isDiscovering: boolean;
 
   public static getInstance() {
-    if (!DevicesService.instance) {
-      DevicesService.instance = new DevicesService();
+    if (!DiscoveryService.instance) {
+      DiscoveryService.instance = new DiscoveryService();
     }
 
-    return DevicesService.instance;
+    return DiscoveryService.instance;
   }
 
   public constructor() {

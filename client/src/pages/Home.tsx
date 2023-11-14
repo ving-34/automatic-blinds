@@ -1,16 +1,23 @@
 import {
   IonButton,
   IonButtons,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardTitle,
+  IonCol,
   IonContent,
+  IonGrid,
   IonHeader,
   IonIcon,
   IonPage,
+  IonRow,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
 import "./Home.css";
 import { addCircleOutline } from "ionicons/icons";
-import { AddDeviceModal } from "../components";
+import { AddDeviceModal, DeviceList } from "../components";
 import { useState } from "react";
 
 const Home: React.FC = () => {
@@ -34,6 +41,20 @@ const Home: React.FC = () => {
           isOpen={isAddDeviceOpen}
           onDismiss={() => setIsAddDeviceOpen(false)}
         />
+        <IonGrid>
+          <IonRow>
+            <IonCol
+              offsetMd="2"
+              sizeMd="8"
+              offsetLg="3"
+              sizeLg="6"
+              offsetXl="4"
+              sizeXl="4"
+            >
+              <DeviceList />
+            </IonCol>
+          </IonRow>
+        </IonGrid>
       </IonContent>
     </IonPage>
   );

@@ -10,18 +10,19 @@ export enum MotorDirection {
 export interface MotorMoveButtonProps extends PropsWithChildren {
   deviceId: string;
   direction: MotorDirection;
+  isMoving: boolean;
+  onClick: () => void;
+  disabled?: boolean;
 }
 
 export const MotorMoveButton = (props: MotorMoveButtonProps) => {
   const service = new MotorService(props.deviceId);
-
-  const [isMoving, setIsMoving] = useState(false);
   const [moveInterval, setMoveInterval] = useState<
     ReturnType<typeof setInterval> | undefined
   >(undefined);
 
   useEffect(() => {
-    if (isMoving) {
+    if (props.isMoving) {
       setMoveInterval(
         setInterval(() => service.move(props.direction * 16), 75)
       );
@@ -31,14 +32,10 @@ export const MotorMoveButton = (props: MotorMoveButtonProps) => {
         setMoveInterval(undefined);
       }
     }
-  }, [isMoving]);
+  }, [props.isMoving]);
 
   return (
-    <IonButton
-      expand="block"
-      onPointerDown={() => setIsMoving(true)}
-      onPointerUp={() => setIsMoving(false)}
-    >
+    <IonButton expand="block" onClick={props.onClick} disabled={props.disabled}>
       {props.children}
     </IonButton>
   );

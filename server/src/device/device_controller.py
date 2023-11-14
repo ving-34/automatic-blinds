@@ -16,7 +16,7 @@ class DeviceController(AbstractController):
                 device_data = request.json
                 builder = DeviceBuilder()
                 builder.set_id(device_data.get('id', str(uuid4())))
-                builder.set_name(device_data.get('name'))
+                builder.set_name(device_data.get('name', '(Unnamed)'))
                 device = builder.get_result()
                 DeviceStore.get_instance().set_one(
                     device.id,
