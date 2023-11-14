@@ -36,8 +36,6 @@ export const MotorMoveButton = (props: MotorMoveButtonProps) => {
   return (
     <IonButton
       expand="block"
-      onTouchStart={() => setIsMoving(true)}
-      onTouchEnd={() => setIsMoving(false)}
       onPointerDown={() => setIsMoving(true)}
       onPointerUp={() => setIsMoving(false)}
     >
