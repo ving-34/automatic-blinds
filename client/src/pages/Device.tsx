@@ -1,10 +1,18 @@
 import {
   IonButton,
   IonButtons,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardSubtitle,
+  IonCardTitle,
+  IonCol,
   IonContent,
+  IonGrid,
   IonHeader,
   IonIcon,
   IonPage,
+  IonRow,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
@@ -29,7 +37,27 @@ const DevicePage: React.FC<DevicePageProps> = (props: DevicePageProps) => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <MotorControls deviceId={props.match.params.deviceId} />
+        <IonGrid>
+          <IonRow>
+            <IonCol
+              offsetMd="2"
+              sizeMd="8"
+              offsetLg="3"
+              sizeLg="6"
+              offsetXl="4"
+              sizeXl="4"
+            >
+              <IonCard>
+                <IonCardHeader>
+                  <IonCardTitle>Motor Controls</IonCardTitle>
+                </IonCardHeader>
+                <IonCardContent>
+                  <MotorControls deviceId={props.match.params.deviceId} />
+                </IonCardContent>
+              </IonCard>
+            </IonCol>
+          </IonRow>
+        </IonGrid>
       </IonContent>
     </IonPage>
   );
