@@ -1,16 +1,12 @@
 import {
-  IonButton,
-  IonButtons,
   IonCard,
   IonCardContent,
   IonCardHeader,
-  IonCardSubtitle,
   IonCardTitle,
   IonCol,
   IonContent,
   IonGrid,
   IonHeader,
-  IonIcon,
   IonPage,
   IonRow,
   IonTitle,
@@ -49,7 +45,7 @@ const DevicePage: React.FC<DevicePageProps> = (props: DevicePageProps) => {
             >
               <IonCard>
                 <IonCardHeader>
-                  <IonCardTitle>Motor Controls</IonCardTitle>
+                  <IonCardTitle>{props.match.params.deviceId}</IonCardTitle>
                 </IonCardHeader>
                 <IonCardContent>
                   <MotorControls deviceId={props.match.params.deviceId} />
