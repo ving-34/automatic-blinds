@@ -13,9 +13,8 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import "./Home.css";
-import { MotorControls } from "../components/motor-controls/motor-controls";
+import { AddDeviceModal, MotorControls } from "../components";
 import { addCircleOutline } from "ionicons/icons";
-import { AddDeviceModal } from "../components/add-device-modal/add-device-modal";
 import { useState } from "react";
 import { RouteComponentProps } from "react-router";
 

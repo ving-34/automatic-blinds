@@ -1,9 +1,9 @@
 class Singleton:
-    __instance = None
+    _instance = None
     
     @classmethod
     def get_instance(cls):
-        if not cls.__instance:
-            cls.__instance = cls()
+        if not cls._instance:
+            cls._instance = cls()
         
-        return cls.__instance
+        return cls._instance

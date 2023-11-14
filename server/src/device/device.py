@@ -1,8 +1,15 @@
-class Device:
-    def __init__(self, device_id: str):
-        self.__id = device_id
+from entity.entity import Entity
+
+class Device(Entity):
+    def __init__(self):
+        super().__init__()
+        self.name = ''
+        
+    def set_name(self, name: str):
+        self.name = name
 
     def to_json(self):
         return {
-            'id': self.__id
+            **super().to_json(),
+            'name': self.name
         }

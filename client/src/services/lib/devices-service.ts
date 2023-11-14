@@ -1,4 +1,4 @@
-import { MQTTClient } from "../mqtt/client";
+import { MQTTClient } from "../../mqtt/lib/client";
 import { Observable } from "rxjs";
 
 export class DevicesService {
@@ -33,7 +33,7 @@ export class DevicesService {
 
   public stopDiscovery() {
     if (this.isDiscovering()) {
-      MQTTClient.getInstance().client.unsubscribe("device/+/discovery");
+      MQTTClient.getInstance().unsubscribe("device/+/discovery");
       this._isDiscovering = false;
     }
   }

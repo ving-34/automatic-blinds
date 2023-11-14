@@ -1,10 +1,5 @@
-import { IonButton, IonCol, IonGrid, IonIcon, IonRow } from "@ionic/react";
-import { MotorService } from "../../services/motor-service";
-import { useEffect, useState } from "react";
-import {
-  MotorDirection,
-  MotorMoveButton,
-} from "../motor-move-button/motor-move-button";
+import { IonCol, IonGrid, IonIcon, IonRow } from "@ionic/react";
+import { MotorDirection, MotorMoveButton } from "./motor-move-button";
 import { arrowDownCircleOutline, arrowUpCircleOutline } from "ionicons/icons";
 
 export interface MotorControlsProps {

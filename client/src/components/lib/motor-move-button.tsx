@@ -1,6 +1,6 @@
 import { IonButton } from "@ionic/react";
 import { PropsWithChildren, useEffect, useState } from "react";
-import { MotorService } from "../../services/motor-service";
+import { MotorService } from "../../services/lib/motor-service";
 
 export enum MotorDirection {
   Down = -1,

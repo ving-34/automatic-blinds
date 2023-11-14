@@ -12,6 +12,6 @@ if __name__ == '__main__':
     
     mqtt_service = MQTTService.get_instance()
     mqtt_service.subscribe_thread.subscribe('/device-discovery-response', on_discovery_response)
-    mqtt_service.start()
+    # mqtt_service.start()
 
     main_app.run(host='0.0.0.0', port=5001)

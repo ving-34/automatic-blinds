@@ -31,7 +31,7 @@ export class MQTTClient {
     return MQTTClient.instance;
   }
 
-  public client: mqtt.MqttClient;
+  private client: mqtt.MqttClient;
 
   public constructor() {
     this.client = mqtt.connect("ws://192.168.2.12", { port: 8080 });
@@ -40,6 +40,17 @@ export class MQTTClient {
     );
 
     this.subscriptions = [];
+  }
+
+  public publish(topic: string, payload?: string | Buffer) {
+    this.client.publish(topic, payload ?? "");
+  }
+
+  public unsubscribe(topic: string) {
+    this.subscriptions = this.subscriptions.filter(
+      (subscription) => !match(subscription.topic, topic)
+    );
+    this.client.unsubscribe(topic);
   }
 
   public subscribe(topic: string): TopicSubject {

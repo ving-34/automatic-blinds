@@ -9,9 +9,8 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import "./Home.css";
-import { MotorControls } from "../components/motor-controls/motor-controls";
 import { addCircleOutline } from "ionicons/icons";
-import { AddDeviceModal } from "../components/add-device-modal/add-device-modal";
+import { AddDeviceModal } from "../components";
 import { useState } from "react";
 
 const Home: React.FC = () => {

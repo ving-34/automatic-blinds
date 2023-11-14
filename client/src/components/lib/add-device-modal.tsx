@@ -1,27 +1,23 @@
 import {
   IonButton,
   IonCard,
-  IonCardContent,
   IonCardHeader,
   IonCardSubtitle,
   IonCardTitle,
-  IonCol,
   IonContent,
-  IonGrid,
   IonHeader,
   IonItem,
   IonLabel,
   IonList,
   IonModal,
-  IonRow,
   IonSpinner,
-  IonText,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import { DevicesService } from "../../services/devices-service";
+import { DevicesService } from "../../services/lib/devices-service";
 import { useCallback, useEffect, useState } from "react";
 import { Subscription } from "rxjs";
+import { DeviceItem } from "./device-item";
 
 export interface AddDeviceModalProps {
   isOpen?: boolean;
@@ -88,16 +84,11 @@ export const AddDeviceModal = (props: AddDeviceModalProps) => {
         {deviceIds.length > 0 && (
           <IonList inset={true}>
             {deviceIds.map((deviceId) => (
-              <IonItem key={deviceId}>
-                <IonLabel>{deviceId}</IonLabel>
-                <IonButton
-                  slot="end"
-                  routerLink={`device/${deviceId}`}
-                  onClick={props.onDismiss}
-                >
-                  Connect
-                </IonButton>
-              </IonItem>
+              <DeviceItem
+                key={deviceId}
+                id={deviceId}
+                onConnect={props.onDismiss}
+              />
             ))}
           </IonList>
         )}
