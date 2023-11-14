@@ -37,4 +37,8 @@ export class DevicesService {
       this._isDiscovering = false;
     }
   }
+
+  public onDiscoveryStopped(): Observable<any> {
+    return MQTTClient.getInstance().subscribe(`device/+/discovery-stopped`);
+  }
 }

@@ -25,9 +25,12 @@ export interface AddDeviceModalProps {
 }
 
 export const AddDeviceModal = (props: AddDeviceModalProps) => {
-  const [subscription, setSubscription] = useState<Subscription | undefined>(
-    undefined
-  );
+  const [discoverSubscription, setDiscoverSubscription] = useState<
+    Subscription | undefined
+  >(undefined);
+  const [stopSubscription, setStopSubscription] = useState<
+    Subscription | undefined
+  >(undefined);
 
   const [deviceIds, setDeviceIds] = useState<string[]>([]);
 
@@ -42,27 +45,53 @@ export const AddDeviceModal = (props: AddDeviceModalProps) => {
     [deviceIds]
   );
 
+  const removeDevice = useCallback(
+    (deviceId: string) => {
+      setDeviceIds(deviceIds.filter((_deviceId) => _deviceId !== deviceId));
+    },
+    [deviceIds]
+  );
+
   useEffect(() => {
     if (props.isOpen) {
-      setSubscription(
+      setDiscoverSubscription(
         DevicesService.getInstance()
           .startDiscovery()
           ?.subscribe(({ topic }) => {
             addDevice(topic.split("/")[1]);
           })
       );
+
+      setStopSubscription(
+        DevicesService.getInstance()
+          .onDiscoveryStopped()
+          ?.subscribe(({ topic }) => {
+            removeDevice(topic.split("/")[1]);
+          })
+      );
     } else {
+      setDeviceIds([]);
+      discoverSubscription?.unsubscribe();
+      stopSubscription?.unsubscribe();
       DevicesService.getInstance().stopDiscovery();
     }
 
-    return () => DevicesService.getInstance().stopDiscovery();
+    return () => {
+      setDeviceIds([]);
+      discoverSubscription?.unsubscribe();
+      stopSubscription?.unsubscribe();
+      DevicesService.getInstance().stopDiscovery();
+    };
   }, [props.isOpen]);
 
   useEffect(() => {
     return () => {
-      subscription?.unsubscribe();
+      setDeviceIds([]);
+      discoverSubscription?.unsubscribe();
+      stopSubscription?.unsubscribe();
+      DevicesService.getInstance().stopDiscovery();
     };
-  }, [subscription]);
+  }, []);
 
   return (
     <IonModal isOpen={props.isOpen} onWillDismiss={props.onDismiss}>
