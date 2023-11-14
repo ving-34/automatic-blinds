@@ -1,4 +1,4 @@
-import { IonButton, IonIcon } from "@ionic/react";
+import { IonButton, IonCol, IonGrid, IonIcon, IonRow } from "@ionic/react";
 import { MotorService } from "../../services/motor-service";
 import { useEffect, useState } from "react";
 import {
@@ -8,25 +8,30 @@ import {
 import { arrowDownCircleOutline, arrowUpCircleOutline } from "ionicons/icons";
 
 export interface MotorControlsProps {
-  motorId: string;
+  deviceId: string;
 }
 
 export const MotorControls = (props: MotorControlsProps) => {
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        paddingTop: "4rem",
-      }}
-    >
-      <MotorMoveButton motorId={props.motorId} direction={MotorDirection.Up}>
-        <IonIcon icon={arrowUpCircleOutline}></IonIcon>
-      </MotorMoveButton>
-      <MotorMoveButton motorId={props.motorId} direction={MotorDirection.Down}>
-        <IonIcon icon={arrowDownCircleOutline}></IonIcon>
-      </MotorMoveButton>
-    </div>
+    <IonGrid>
+      <IonRow>
+        <IonCol>
+          <MotorMoveButton
+            deviceId={props.deviceId}
+            direction={MotorDirection.Up}
+          >
+            <IonIcon icon={arrowUpCircleOutline}></IonIcon>
+          </MotorMoveButton>
+        </IonCol>
+        <IonCol>
+          <MotorMoveButton
+            deviceId={props.deviceId}
+            direction={MotorDirection.Down}
+          >
+            <IonIcon icon={arrowDownCircleOutline}></IonIcon>
+          </MotorMoveButton>
+        </IonCol>
+      </IonRow>
+    </IonGrid>
   );
 };

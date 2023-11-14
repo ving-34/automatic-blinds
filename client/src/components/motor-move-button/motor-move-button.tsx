@@ -8,12 +8,12 @@ export enum MotorDirection {
 }
 
 export interface MotorMoveButtonProps extends PropsWithChildren {
-  motorId: string;
+  deviceId: string;
   direction: MotorDirection;
 }
 
 export const MotorMoveButton = (props: MotorMoveButtonProps) => {
-  const service = new MotorService(props.motorId);
+  const service = new MotorService(props.deviceId);
 
   const [isMoving, setIsMoving] = useState(false);
   const [moveInterval, setMoveInterval] = useState<
@@ -35,6 +35,9 @@ export const MotorMoveButton = (props: MotorMoveButtonProps) => {
 
   return (
     <IonButton
+      expand="block"
+      onTouchStart={() => setIsMoving(true)}
+      onTouchEnd={() => setIsMoving(false)}
       onPointerDown={() => setIsMoving(true)}
       onPointerUp={() => setIsMoving(false)}
     >

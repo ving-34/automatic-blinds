@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Veegee Automation</string>
+    <string name="title_activity_main">Veegee Automation</string>
+    <string name="package_name">com.veegee.app</string>
+    <string name="custom_url_scheme">com.veegee.app</string>
+</resources>

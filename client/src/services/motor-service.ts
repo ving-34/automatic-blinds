@@ -1,19 +1,17 @@
-export class MotorService {
-  private motorId: string;
+import { MQTTClient } from "../mqtt/client";
 
-  public constructor(motorId: string) {
-    this.motorId = motorId;
+export class MotorService {
+  private deviceId: string;
+
+  public constructor(deviceId: string) {
+    this.deviceId = deviceId;
   }
 
   public async move(numberOfSteps: number): Promise<void> {
-    await fetch(`/api/motor/${this.motorId}/move`, {
-      method: "post",
-      body: JSON.stringify({
-        steps: numberOfSteps,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const client = MQTTClient.getInstance().client;
+    await client.publishAsync(
+      `device/${this.deviceId}/move`,
+      numberOfSteps.toString()
+    );
   }
 }
