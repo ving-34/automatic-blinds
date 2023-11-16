@@ -7,6 +7,11 @@ class DeviceBuilder(EntityBuilder):
         self._entity = Device()
     
     def set_name(self, name: str):
-        self._entity.set_name(name)
+        self._entity.name = name
+    
+        return self
+
+    def set_type(self, type: str):
+        self._entity.type = type
     
         return self

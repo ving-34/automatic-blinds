@@ -24,6 +24,7 @@
     "@ionic/react-router": "^7.0.0",
     "@types/react-router": "^5.1.20",
     "@types/react-router-dom": "^5.3.3",
+    "clsx": "^2.0.0",
     "ionicons": "^7.0.0",
     "mqtt": "^5.2.1",
     "mqtt-match": "^3.0.0",
@@ -46,6 +47,7 @@
     "eslint": "^8.35.0",
     "eslint-plugin-react": "^7.32.2",
     "jsdom": "^22.1.0",
+    "sass": "^1.69.5",
     "typescript": "^5.1.6",
     "vite": "^4.3.9",
     "vitest": "^0.32.2"

@@ -1,5 +1,6 @@
 import {
   IonButton,
+  IonButtons,
   IonCard,
   IonCardHeader,
   IonCardSubtitle,
@@ -99,6 +100,9 @@ export const AddDeviceModal = (props: AddDeviceModalProps) => {
       <IonHeader>
         <IonToolbar>
           <IonTitle>Add Device</IonTitle>
+          <IonButtons slot="end">
+            <IonButton onClick={props.onDismiss}>Cancel</IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">

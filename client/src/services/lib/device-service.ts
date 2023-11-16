@@ -16,7 +16,9 @@ export class DeviceService {
       .subscribe(`device/${id}/connect-response`)
       .pipe(
         map(({ payload }) => {
-          this.createDevice({ id });
+          const [id, type] = String(payload).split(":");
+
+          this.createDevice({ id, type });
         })
       );
   }

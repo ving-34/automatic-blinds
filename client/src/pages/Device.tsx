@@ -54,7 +54,6 @@ const DevicePage: React.FC<DevicePageProps> = (props: DevicePageProps) => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <IonAlert>{DeviceService.getURL()}</IonAlert>
         <IonGrid>
           <IonRow>
             <IonCol
@@ -67,7 +66,7 @@ const DevicePage: React.FC<DevicePageProps> = (props: DevicePageProps) => {
             >
               {device && (
                 <>
-                  <IonRow>
+                  {/* <IonRow>
                     <IonCol>
                       <IonInput
                         label="Name"
@@ -78,7 +77,7 @@ const DevicePage: React.FC<DevicePageProps> = (props: DevicePageProps) => {
                         }
                       />
                     </IonCol>
-                  </IonRow>
+                  </IonRow> */}
                   <IonRow>
                     <IonCol>
                       <MotorControls deviceId={device.id} />
