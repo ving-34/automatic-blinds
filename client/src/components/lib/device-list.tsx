@@ -6,25 +6,23 @@ import {
   IonLabel,
   IonList,
   IonListHeader,
+  IonRefresher,
+  IonRefresherContent,
   IonText,
   IonTitle,
 } from "@ionic/react";
 
-export const DeviceList = () => {
-  const [devices, setDevices] = useState<Device[]>([]);
+export interface DeviceListProps {
+  devices: Device[];
+}
 
-  useEffect(() => {
-    (async () => {
-      setDevices(await new DeviceService().getDevices());
-    })();
-  }, []);
-
+export const DeviceList = (props: DeviceListProps) => {
   return (
     <IonList>
       <IonListHeader>
         <IonLabel>Devices</IonLabel>
       </IonListHeader>
-      {devices.map((device) => (
+      {props.devices.map((device) => (
         <IonItem key={device.id} routerLink={`/device/${device.id}`}>
           <IonLabel>{device.name}</IonLabel>
         </IonItem>

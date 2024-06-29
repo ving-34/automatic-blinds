@@ -3,8 +3,8 @@ import { PropsWithChildren, useEffect, useState } from "react";
 import { MotorService } from "../../services/lib/motor-service";
 
 export enum MotorDirection {
-  Down = -1,
-  Up = 1,
+  Down = 1,
+  Up = -1,
 }
 
 export interface MotorMoveButtonProps extends PropsWithChildren {

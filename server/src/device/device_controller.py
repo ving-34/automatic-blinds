@@ -32,6 +32,7 @@ class DeviceController(AbstractController):
 
         @app.route('/api/device', methods = ['GET'])
         def get_devices():
+            print(request.headers.get('Origin'))
             return DeviceStore.get_instance().select_all(json=True)
 
         @app.route('/api/device/<string:id>', methods = ['GET'])

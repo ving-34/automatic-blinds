@@ -11,17 +11,46 @@ import {
   IonHeader,
   IonIcon,
   IonPage,
+  IonRefresher,
+  IonRefresherContent,
   IonRow,
   IonTitle,
   IonToolbar,
+  RefresherEventDetail,
 } from "@ionic/react";
 import "./Home.css";
 import { addCircleOutline } from "ionicons/icons";
 import { AddDeviceModal, DeviceList } from "../components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { DeviceService } from "../services";
+import { Device } from "../types";
 
 const Home: React.FC = () => {
   const [isAddDeviceOpen, setIsAddDeviceOpen] = useState(false);
+
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [devices, setDevices] = useState<Device[]>([]);
+
+  const fetchDevices = async (event?: CustomEvent<RefresherEventDetail>) => {
+    setDevices(await new DeviceService().getDevices());
+
+    setTimeout(() => {
+      event?.detail.complete();
+    }, 600);
+  };
+
+  useEffect(() => {
+    if (!isLoaded) {
+      (async () => {
+        await fetchDevices();
+        setIsLoaded(true);
+      })();
+    }
+
+    return () => {
+      setIsLoaded(false);
+    };
+  }, []);
 
   return (
     <IonPage>
@@ -37,6 +66,10 @@ const Home: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
+        <IonRefresher slot="fixed" onIonRefresh={fetchDevices}>
+          <IonRefresherContent></IonRefresherContent>
+        </IonRefresher>
+
         <AddDeviceModal
           isOpen={isAddDeviceOpen}
           onDismiss={() => setIsAddDeviceOpen(false)}
@@ -51,7 +84,7 @@ const Home: React.FC = () => {
               offsetXl="4"
               sizeXl="4"
             >
-              <DeviceList />
+              <DeviceList devices={devices} />
             </IonCol>
           </IonRow>
         </IonGrid>

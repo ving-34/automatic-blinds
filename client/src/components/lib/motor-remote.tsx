@@ -1,25 +1,9 @@
-import {
-  GestureDetail,
-  IonButton,
-  IonCol,
-  IonGrid,
-  IonIcon,
-  IonRow,
-  createGesture,
-} from "@ionic/react";
-import { MotorDirection, MotorMoveButton } from "./motor-move-button";
-import {
-  arrowDown,
-  arrowDownCircleOutline,
-  arrowUp,
-  arrowUpCircleOutline,
-  chevronDown,
-  chevronUp,
-  stopCircleOutline,
-} from "ionicons/icons";
-import { useEffect, useRef, useState } from "react";
+import { GestureDetail, IonIcon, createGesture } from "@ionic/react";
+import { MotorDirection } from "./motor-move-button";
+import { chevronDown, chevronUp } from "ionicons/icons";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-import "./motor-controls.scss";
+import "./motor-remote.scss";
 import clsx from "clsx";
 import { MotorService } from "../../services";
 
@@ -36,7 +20,7 @@ const useMotorMove = (deviceId: string) => {
 
   useEffect(() => {
     if (direction) {
-      setMoveInterval(setInterval(() => service.move(direction * 16), 75));
+      setMoveInterval(setInterval(() => service.move(direction * 108), 400));
     } else {
       if (moveInterval) {
         clearInterval(moveInterval);
@@ -48,11 +32,13 @@ const useMotorMove = (deviceId: string) => {
   return [direction, setDirection] as const;
 };
 
-export interface MotorControlsProps {
+export interface MotorRemoteProps {
   deviceId: string;
+  disabled?: boolean;
+  percentage?: number;
 }
 
-export const MotorControls = (props: MotorControlsProps) => {
+export const MotorRemote = (props: MotorRemoteProps) => {
   const remote = useRef<HTMLDivElement>(null);
 
   const service = new MotorService(props.deviceId);
@@ -65,15 +51,32 @@ export const MotorControls = (props: MotorControlsProps) => {
   const UP_THRESHOLD = -75;
   const DOWN_THRESHOLD = 75;
 
-  const onMove = (detail: GestureDetail) => {
-    if (detail.deltaY < UP_THRESHOLD) {
-      setDirection(MotorDirection.Up);
-    } else if (detail.deltaY > DOWN_THRESHOLD) {
-      setDirection(MotorDirection.Down);
-    } else {
-      setDirection(undefined);
-    }
-  };
+  const onMove = useCallback(
+    (detail: GestureDetail) => {
+      if (props.disabled) {
+        setDirection(undefined);
+        return;
+      }
+
+      if (
+        detail.deltaY < UP_THRESHOLD &&
+        (props.percentage === undefined || props.percentage !== 0)
+      ) {
+        console.log("setting direction up");
+        setDirection(MotorDirection.Up);
+      } else if (
+        detail.deltaY > DOWN_THRESHOLD &&
+        (props.percentage === undefined || props.percentage !== 100)
+      ) {
+        console.log("setting direction down");
+        setDirection(MotorDirection.Down);
+      } else {
+        console.log("clearing direction");
+        setDirection(undefined);
+      }
+    },
+    [props.percentage, props.disabled, setDirection]
+  );
 
   const onEnd = () => {
     setDirection(undefined);
@@ -91,7 +94,7 @@ export const MotorControls = (props: MotorControlsProps) => {
           direction: "y",
           onMove: (detail) => onMove(detail),
           onEnd: () => onEnd(),
-          gestureName: "motor-control-swipe",
+          gestureName: "motor-remote-swipe",
         });
 
         gesture.enable();
@@ -101,15 +104,19 @@ export const MotorControls = (props: MotorControlsProps) => {
         };
       }
     }
-  }, [remote]);
+  }, [remote, onMove]);
 
   return (
-    <div className="motor-controls" ref={remote}>
+    <div
+      className={clsx("motor-remote", props.disabled && "disabled")}
+      ref={remote}
+    >
       <div
-        onClick={() => service.move(MotorDirection.Up * 16)}
+        onClick={() => service.move(MotorDirection.Up * 64)}
         className={clsx(
-          "motor-controls__button",
-          direction === MotorDirection.Up ? "active" : ""
+          "motor-remote__button",
+          direction === MotorDirection.Up && "active",
+          props.percentage === 0 && "disabled"
         )}
       >
         <IonIcon icon={chevronUp} />
@@ -117,10 +124,11 @@ export const MotorControls = (props: MotorControlsProps) => {
         <IonIcon icon={chevronUp} />
       </div>
       <div
-        onClick={() => service.move(MotorDirection.Down * 16)}
+        onClick={() => service.move(MotorDirection.Down * 64)}
         className={clsx(
-          "motor-controls__button",
-          direction === MotorDirection.Down ? "active" : ""
+          "motor-remote__button",
+          direction === MotorDirection.Down && "active",
+          props.percentage === 100 && "disabled"
         )}
       >
         <IonIcon icon={chevronDown} />

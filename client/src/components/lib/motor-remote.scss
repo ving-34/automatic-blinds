@@ -1,0 +1,41 @@
+.motor-remote {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12rem;
+  background: var(--ion-color-light);
+  border-radius: 2rem;
+  overflow: hidden;
+  width: 75%;
+  max-width: 320px;
+  left: 50%;
+  position: relative;
+  transform: translateX(-50%);
+  border: solid 4px var(--ion-color-light-tint);
+
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .motor-remote__button {
+    color: var(--ion-color-medium);
+    border-radius: var(--ion-border-radius);
+    padding: 1rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &.disabled {
+      opacity: 0.15;
+      pointer-events: none;
+    }
+
+    &.active:not(.disabled),
+    &:active:not(.disabled) {
+      color: var(--ion-color-dark);
+      background: var(--ion-color-light-shade);
+    }
+  }
+}
